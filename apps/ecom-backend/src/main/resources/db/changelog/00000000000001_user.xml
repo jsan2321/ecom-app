@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+a Liquibase changelog file is used to manage database schema (e.g. create tables and sequences) changes in a structured and version-controlled way
+-->
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  <!--
+  changes are organized into changeSets, which are atomic units of change
+  each changeSet has a unique id and an author to track who made the change
+  -->
+    <changeSet id="00000000000001-seq" author="ecom">
+      <!-- database sequence -->
+        <createSequence sequenceName="user_sequence" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="create-schema-ecom-api" author="ecom">
+      <sql>CREATE SCHEMA IF NOT EXISTS ecom_api;</sql>
+    </changeSet>
+
+    <changeSet id="00000000000001-user" author="ecom">
+        <createTable tableName="ecommerce_user">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+          <!-- unique UUID, defined by a placeholder for a database-specific UUID type -->
+            <column name="public_id" type="${uuidType}">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="email" type="varchar(255)">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_user_email"/>
+            </column>
+            <column name="address_street" type="varchar(255)"/>
+            <column name="address_zip_code" type="varchar(255)"/>
+            <column name="address_city" type="varchar(255)"/>
+            <column name="address_country" type="varchar(255)"/>
+            <column name="image_url" type="varchar(256)"/>
+            <column name="last_seen" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000001-authority" author="ecom">
+        <createTable tableName="authority">
+            <column name="name" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+      <!-- join table for a many-to-many relationship -->
+        <createTable tableName="user_authority">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+      <!-- composite primary key -->
+        <addPrimaryKey columnNames="user_id, authority_name" tableName="user_authority"/>
+        <!-- added foreign key constraints, links user_authority.authority_name to authority.name -->
+        <addForeignKeyConstraint baseColumnNames="authority_name"
+                                 baseTableName="user_authority"
+                                 constraintName="fk_authority_name"
+                                 referencedColumnNames="name"
+                                 referencedTableName="authority"/>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_authority"
+                                 constraintName="fk_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ecommerce_user"/>
+
+      <!--
+      loads initial data into the authority table from a CSV file
+      the CSV file uses ; as the delimiter
+      -->
+        <loadData
+                file="db/data/authority.csv"
+                separator=";"
+                tableName="authority"
+                usePreparedStatements="true">
+            <column name="name" type="string"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

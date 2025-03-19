@@ -50,12 +50,25 @@
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/net.lbruun.springboot/preliquibase-spring-boot-starter -->
+
     <dependency>
       <groupId>net.lbruun.springboot</groupId>
       <artifactId>preliquibase-spring-boot-starter</artifactId>
       <version>1.6.0</version>
     </dependency>
+    <dependency>
+      <groupId>cc.jilt</groupId>
+      <artifactId>jilt</artifactId>
+      <version>1.6.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
+      <version>5.4.2</version>
+    </dependency>
+
 
     <dependency>
       <groupId>org.springframework.boot</groupId>

@@ -56,8 +56,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://ecom.kinde.com
-          jwk-set-uri: https://ecom.kinde.com/.well-known/jwks
+          issuer-uri: https://jsan.kinde.com
+          jwk-set-uri: https://jsan.kinde.com/.well-known/jwks
           audiences: http://localhost:8080/api
   devtools:
     restart:
@@ -84,10 +84,10 @@ application:
     allow-credentials: false
     max-age: 300
   kinde:
-    api: https://ecom.kinde.com
+    api: https://jsan.kinde.com
     client-id: ${KINDE_CLIENT_ID}
     client-secret: ${KINDE_CLIENT_SECRET}
-    audience: https://ecom.kinde.com/api
-  stripe:
-    api-key: ${STRIPE_API_KEY}
-    webhook-secret: ${STRIPE_WEBHOOK_SECRET}
+    audience: https://jsan.kinde.com/api
+#  stripe:
+#    api-key: ${STRIPE_API_KEY}
+#    webhook-secret: ${STRIPE_WEBHOOK_SECRET}

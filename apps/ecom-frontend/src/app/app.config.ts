@@ -7,9 +7,9 @@ import {
 } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { AbstractSecurityStorage, authInterceptor, LogLevel, provideAuth } from 'angular-auth-oidc-client';
-import { environment } from '../environments/environment';
 import { provideQueryClient, QueryClient } from '@tanstack/angular-query-experimental';
 import { SsrStorageService } from './auth/ssr-storage.service';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [

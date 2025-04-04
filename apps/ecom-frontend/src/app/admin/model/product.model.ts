@@ -1,3 +1,5 @@
+import { FormControl } from "@angular/forms";
+
 export type ProductSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 export const sizes: ProductSizes[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
@@ -27,3 +29,7 @@ export interface BaseProduct {
 export interface Product extends BaseProduct {
   publicId: string;
 }
+
+export type CreateCategoryFormContent = {
+  name: FormControl<string>;
+};

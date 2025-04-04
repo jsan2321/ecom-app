@@ -32,6 +32,10 @@ export class NavbarComponent {
     );
   }
 
+  closeMenu(menu: HTMLDetailsElement) {
+    menu.removeAttribute('open');
+  }
+
   closeDropDownMenu() {
     const bodyElement = document.activeElement as HTMLBodyElement;
     if (bodyElement) {

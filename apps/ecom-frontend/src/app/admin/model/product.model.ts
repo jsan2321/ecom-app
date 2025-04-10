@@ -33,3 +33,17 @@ export interface Product extends BaseProduct {
 export type CreateCategoryFormContent = {
   name: FormControl<string>;
 };
+
+
+export type CreateProductFormContent = {
+  brand: FormControl<string>;
+  color: FormControl<string>;
+  description: FormControl<string>;
+  name: FormControl<string>;
+  price: FormControl<number>;
+  size: FormControl<ProductSizes>;
+  category: FormControl<string>;
+  featured: FormControl<boolean>;
+  pictures: FormControl<ProductPicture[]>;
+  stock: FormControl<number>;
+};

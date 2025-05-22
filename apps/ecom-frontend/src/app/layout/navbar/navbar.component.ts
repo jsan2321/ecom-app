@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Oauth2Service } from '../../auth/oauth2.service';
+import { UserProductService } from '../../shared/service/user-product.service';
+import { injectQuery } from '@tanstack/angular-query-experimental';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -12,8 +15,14 @@ import { Oauth2Service } from '../../auth/oauth2.service';
 })
 export class NavbarComponent {
   oauth2Service = inject(Oauth2Service);
+  productService = inject(UserProductService);
 
   connectedUserQuery = this.oauth2Service.connectedUserQuery;
+
+  categoryQuery = injectQuery(() => ({
+    queryKey: ['categories'],
+    queryFn: () => lastValueFrom(this.productService.findAllCategories()),
+  }));
 
   login(): void {
     this.closeDropDownMenu();

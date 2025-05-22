@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { createPaginationOption, Page, Pagination } from '../model/request.model';
 import { Observable } from 'rxjs';
-import { Product, ProductCategory } from '../../admin/model/product.model';
+import { Product, ProductCategory, ProductFilter } from '../../admin/model/product.model';
 import { environment } from 'apps/ecom-frontend/src/environments/environment';
 
 @Injectable({
@@ -44,5 +44,20 @@ export class UserProductService {
     );
   }
 
-
+  filter(
+    pageRequest: Pagination,
+    productFilter: ProductFilter
+  ): Observable<Page<Product>> {
+    let params = createPaginationOption(pageRequest);
+    if (productFilter.category) {
+      params = params.append('categoryId', productFilter.category);
+    }
+    if (productFilter.size) {
+      params = params.append('productSizes', productFilter.size);
+    }
+    return this.http.get<Page<Product>>(
+      `${environment.apiUrl}/products-shop/filter`,
+      { params }
+    );
+  }
 }

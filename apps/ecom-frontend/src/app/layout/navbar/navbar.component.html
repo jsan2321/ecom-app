@@ -11,7 +11,14 @@
           <details #productsMenu>
             <summary>Products</summary>
             <ul class="z-30">
-              <li><a href="/products">All</a></li>
+              @if (categoryQuery.isSuccess() && categoryQuery.data()) {
+                @for (category of categoryQuery.data().content; track category.publicId) {
+                  <li><a [routerLink]="['products']"
+                       [queryParams]="{category: category.publicId}"
+                       (click)="closeMenu(productsMenu)"
+                       (clickOutside)="closeMenu(productsMenu)">{{ category.name }}</a></li>
+                }
+              }
             </ul>
           </details>
         </li>
@@ -19,7 +26,14 @@
           <details #adminMenu>
             <summary>Admin</summary>
             <ul class="z-30">
-              <li><a href="/products">All</a></li>
+              <li>
+                <a routerLink="admin/categories/list"
+                   (click)="closeMenu(adminMenu)" (clickOutside)="closeMenu(adminMenu)">Categories</a>
+              </li>
+              <li>
+                <a routerLink="admin/products/list"
+                   (click)="closeMenu(adminMenu)" (clickOutside)="closeMenu(adminMenu)">Products</a>
+              </li>
             </ul>
           </details>
         </li>
@@ -37,7 +51,14 @@
           <details #productsMenu>
             <summary>Products</summary>
             <ul class="z-30">
-              <li><a href="/products">All</a></li>
+              @if (categoryQuery.isSuccess() && categoryQuery.data()) {
+                @for (category of categoryQuery.data().content; track category.publicId) {
+                  <li><a [routerLink]="['products']"
+                       [queryParams]="{category: category.publicId}"
+                       (click)="closeMenu(productsMenu)"
+                       (clickOutside)="closeMenu(productsMenu)">{{ category.name }}</a></li>
+                }
+              }
             </ul>
           </details>
         </li>
